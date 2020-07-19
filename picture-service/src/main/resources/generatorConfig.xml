@@ -44,18 +44,18 @@
         </javaTypeResolver>
 
         <!-- 生成实体类地址 -->
-        <javaModelGenerator targetPackage="pojo" targetProject="src/main/java/com/a205/mybed/userservice" >
+        <javaModelGenerator targetPackage="com.a205.mybed.pictureservice.pojo" targetProject="src/main/java/" >
             <property name="enableSubPackages" value="true"/>
             <!-- 设置是否在getter方法中，对String类型字段调用trim()方法 -->
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!-- 生成mapxml文件 -->
-        <sqlMapGenerator targetPackage="mapper" targetProject="../user-service/src/main/resources" >
+        <sqlMapGenerator targetPackage="mapper" targetProject="../picture-service/src/main/resources" >
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 
         <!-- 生成mapxml对应client，也就是接口dao type=XMLMAPPER让生成的接口完全依赖于XML -->
-        <javaClientGenerator targetPackage="dao" targetProject="src/main/java/com/a205/mybed/userservice" type="XMLMAPPER" >
+        <javaClientGenerator targetPackage="com.a205.mybed.pictureservice.dao" targetProject="src/main/java/" type="XMLMAPPER" >
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
         <!-- table可以有多个,每个数据库中的表都可以写一个table，tableName表示要匹配的数据库表,也可以在tableName属性中通过使用%通配符来匹配所有数据库表,只有匹配的表才会自动生成文件 -->
@@ -64,7 +64,10 @@
   可以设置为somepck.domainName，那么会自动把domainName类再放到somepck包里面；
   -->
 
-        <table tableName="user" domainObjectName="User" enableUpdateByExample="true"/>
+        <table tableName="album"/>
+        <table tableName="picture"/>
+        <table tableName="user_picture_album"/>
+
 
 
 
