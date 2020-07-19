@@ -1,4 +1,4 @@
-package com.a205.mybed.pictureservice.pojo;
+package pojo;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,6 +19,8 @@ public class Picture implements Serializable {
     private String type;
 
     private Integer like;
+
+    private String md5;
 
     private static final long serialVersionUID = 1L;
 
@@ -86,6 +88,14 @@ public class Picture implements Serializable {
         this.like = like;
     }
 
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5 == null ? null : md5.trim();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -100,6 +110,7 @@ public class Picture implements Serializable {
         sb.append(", expireTime=").append(expireTime);
         sb.append(", type=").append(type);
         sb.append(", like=").append(like);
+        sb.append(", md5=").append(md5);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

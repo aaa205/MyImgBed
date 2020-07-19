@@ -614,6 +614,76 @@ public class PictureExample {
             addCriterion("like not between", value1, value2, "like");
             return (Criteria) this;
         }
+
+        public Criteria andMd5IsNull() {
+            addCriterion("md5 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMd5IsNotNull() {
+            addCriterion("md5 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMd5EqualTo(String value) {
+            addCriterion("md5 =", value, "md5");
+            return (Criteria) this;
+        }
+
+        public Criteria andMd5NotEqualTo(String value) {
+            addCriterion("md5 <>", value, "md5");
+            return (Criteria) this;
+        }
+
+        public Criteria andMd5GreaterThan(String value) {
+            addCriterion("md5 >", value, "md5");
+            return (Criteria) this;
+        }
+
+        public Criteria andMd5GreaterThanOrEqualTo(String value) {
+            addCriterion("md5 >=", value, "md5");
+            return (Criteria) this;
+        }
+
+        public Criteria andMd5LessThan(String value) {
+            addCriterion("md5 <", value, "md5");
+            return (Criteria) this;
+        }
+
+        public Criteria andMd5LessThanOrEqualTo(String value) {
+            addCriterion("md5 <=", value, "md5");
+            return (Criteria) this;
+        }
+
+        public Criteria andMd5Like(String value) {
+            addCriterion("md5 like", value, "md5");
+            return (Criteria) this;
+        }
+
+        public Criteria andMd5NotLike(String value) {
+            addCriterion("md5 not like", value, "md5");
+            return (Criteria) this;
+        }
+
+        public Criteria andMd5In(List<String> values) {
+            addCriterion("md5 in", values, "md5");
+            return (Criteria) this;
+        }
+
+        public Criteria andMd5NotIn(List<String> values) {
+            addCriterion("md5 not in", values, "md5");
+            return (Criteria) this;
+        }
+
+        public Criteria andMd5Between(String value1, String value2) {
+            addCriterion("md5 between", value1, value2, "md5");
+            return (Criteria) this;
+        }
+
+        public Criteria andMd5NotBetween(String value1, String value2) {
+            addCriterion("md5 not between", value1, value2, "md5");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

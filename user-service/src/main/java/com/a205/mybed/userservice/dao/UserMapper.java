@@ -1,6 +1,6 @@
 package com.a205.mybed.userservice.dao;
 
-import com.a205.mybed.userservice.pojo.User;
+import pojo.User;
 import com.a205.mybed.userservice.pojo.UserExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.a205.mybed.userservice.dao.UserMapper">
-  <resultMap id="BaseResultMap" type="com.a205.mybed.userservice.pojo.User">
+  <resultMap id="BaseResultMap" type="pojo.User">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="password" jdbcType="VARCHAR" property="password" />
@@ -101,7 +101,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.a205.mybed.userservice.pojo.User">
+  <insert id="insert" parameterType="pojo.User">
     insert into user (id, name, password, 
       salt, group_id, memory, 
       create_time)
@@ -109,7 +109,7 @@
       #{salt,jdbcType=VARCHAR}, #{groupId,jdbcType=TINYINT}, #{memory,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.a205.mybed.userservice.pojo.User">
+  <insert id="insertSelective" parameterType="pojo.User">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -206,7 +206,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.a205.mybed.userservice.pojo.User">
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.User">
     update user
     <set>
       <if test="name != null">
@@ -230,7 +230,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.a205.mybed.userservice.pojo.User">
+  <update id="updateByPrimaryKey" parameterType="pojo.User">
     update user
     set name = #{name,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
