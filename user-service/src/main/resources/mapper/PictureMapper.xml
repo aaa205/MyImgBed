@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.PictureMapper">
+  <resultMap id="BaseResultMap" type="pojo.Picture">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_location" jdbcType="VARCHAR" property="parentLocation" />
+    <result column="upload_time" jdbcType="TIMESTAMP" property="uploadTime" />
+    <result column="size" jdbcType="INTEGER" property="size" />
+    <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
+    <result column="type" jdbcType="CHAR" property="type" />
+    <result column="like" jdbcType="INTEGER" property="like" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from picture
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="pojo.Picture">
+    insert into picture (id, name, parent_location, 
+      upload_time, size, expire_time, 
+      type, like)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentLocation,jdbcType=VARCHAR}, 
+      #{uploadTime,jdbcType=TIMESTAMP}, #{size,jdbcType=INTEGER}, #{expireTime,jdbcType=TIMESTAMP}, 
+      #{type,jdbcType=CHAR}, #{like,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="pojo.Picture">
+    update picture
+    set name = #{name,jdbcType=VARCHAR},
+      parent_location = #{parentLocation,jdbcType=VARCHAR},
+      upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+      size = #{size,jdbcType=INTEGER},
+      expire_time = #{expireTime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=CHAR},
+      like = #{like,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, parent_location, upload_time, size, expire_time, type, like
+    from picture
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, parent_location, upload_time, size, expire_time, type, like
+    from picture
+  </select>
+</mapper>
