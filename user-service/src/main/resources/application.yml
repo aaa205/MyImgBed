@@ -1,0 +1,23 @@
+server:
+  port: 8081
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: http://localhost:8090/eureka/
+
+  instance:
+    lease-expiration-duration-in-seconds: 30
+    lease-renewal-interval-in-seconds: 10
+    instance-id: user-service
+spring:
+  application:
+    name: user-service
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      username: mybedAdmin
+      password: 114514
+    url: jdbc:mysql://47.103.82.240:3306/imgbed?useUnicode=true&characterEncoding=utf8
