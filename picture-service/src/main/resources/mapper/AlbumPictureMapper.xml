@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.a205.mybed.pictureservice.dao.AlbumMapper">
-  <resultMap id="BaseResultMap" type="com.a205.mybed.pictureservice.pojo.Album">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+<mapper namespace="com.a205.mybed.pictureservice.dao.AlbumPictureMapper">
+  <resultMap id="BaseResultMap" type="com.a205.mybed.pictureservice.pojo.AlbumPicture">
+    <id column="album_id" jdbcType="INTEGER" property="albumId" />
+    <id column="picture_id" jdbcType="INTEGER" property="pictureId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,15 +64,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, create_time
+    album_id, picture_id
   </sql>
-  <select id="selectByExample" parameterType="com.a205.mybed.pictureservice.pojo.AlbumExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.a205.mybed.pictureservice.pojo.AlbumPictureExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from album
+    from album_picture
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -81,70 +80,54 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from album
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from album
-    where id = #{id,jdbcType=INTEGER}
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from album_picture
+    where album_id = #{albumId,jdbcType=INTEGER}
+      and picture_id = #{pictureId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.a205.mybed.pictureservice.pojo.AlbumExample">
-    delete from album
+  <delete id="deleteByExample" parameterType="com.a205.mybed.pictureservice.pojo.AlbumPictureExample">
+    delete from album_picture
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.a205.mybed.pictureservice.pojo.Album">
-    insert into album (id, name, create_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
-      )
+  <insert id="insert" parameterType="com.a205.mybed.pictureservice.pojo.AlbumPicture">
+    insert into album_picture (album_id, picture_id)
+    values (#{albumId,jdbcType=INTEGER}, #{pictureId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.a205.mybed.pictureservice.pojo.Album">
-    insert into album
+  <insert id="insertSelective" parameterType="com.a205.mybed.pictureservice.pojo.AlbumPicture">
+    insert into album_picture
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="albumId != null">
+        album_id,
       </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="createTime != null">
-        create_time,
+      <if test="pictureId != null">
+        picture_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
+      <if test="albumId != null">
+        #{albumId,jdbcType=INTEGER},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+      <if test="pictureId != null">
+        #{pictureId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.a205.mybed.pictureservice.pojo.AlbumExample" resultType="java.lang.Long">
-    select count(*) from album
+  <select id="countByExample" parameterType="com.a205.mybed.pictureservice.pojo.AlbumPictureExample" resultType="java.lang.Long">
+    select count(*) from album_picture
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update album
+    update album_picture
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+      <if test="record.albumId != null">
+        album_id = #{record.albumId,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      <if test="record.pictureId != null">
+        picture_id = #{record.pictureId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -152,30 +135,11 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update album
-    set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    update album_picture
+    set album_id = #{record.albumId,jdbcType=INTEGER},
+      picture_id = #{record.pictureId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.a205.mybed.pictureservice.pojo.Album">
-    update album
-    <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.a205.mybed.pictureservice.pojo.Album">
-    update album
-    set name = #{name,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

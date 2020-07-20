@@ -1,11 +1,9 @@
-package pojo;
+package com.a205.mybed.pictureservice.pojo;
 
 import java.io.Serializable;
 
-public class UserPictureAlbum implements Serializable {
+public class UserAlbum implements Serializable {
     private Integer userId;
-
-    private Integer pictureId;
 
     private Integer albumId;
 
@@ -17,14 +15,6 @@ public class UserPictureAlbum implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public Integer getPictureId() {
-        return pictureId;
-    }
-
-    public void setPictureId(Integer pictureId) {
-        this.pictureId = pictureId;
     }
 
     public Integer getAlbumId() {
@@ -42,7 +32,6 @@ public class UserPictureAlbum implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", userId=").append(userId);
-        sb.append(", pictureId=").append(pictureId);
         sb.append(", albumId=").append(albumId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

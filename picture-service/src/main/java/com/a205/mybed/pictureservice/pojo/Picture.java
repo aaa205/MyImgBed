@@ -1,4 +1,4 @@
-package pojo;
+package com.a205.mybed.pictureservice.pojo;
 
 import java.io.Serializable;
 import java.util.Date;

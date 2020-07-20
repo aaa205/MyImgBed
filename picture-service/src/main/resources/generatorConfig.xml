@@ -66,7 +66,8 @@
 
         <table tableName="album"/>
         <table tableName="picture"/>
-        <table tableName="user_picture_album"/>
+        <table tableName="user_album"/>
+        <table tableName="album_picture"/>
 
 
 

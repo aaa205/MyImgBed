@@ -1,20 +1,12 @@
-package pojo;
+package com.a205.mybed.pictureservice.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class User implements Serializable {
+public class Album implements Serializable {
     private Integer id;
 
     private String name;
-
-    private String password;
-
-    private String salt;
-
-    private Byte groupId;
-
-    private Integer memory;
 
     private Date createTime;
 
@@ -36,38 +28,6 @@ public class User implements Serializable {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt == null ? null : salt.trim();
-    }
-
-    public Byte getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(Byte groupId) {
-        this.groupId = groupId;
-    }
-
-    public Integer getMemory() {
-        return memory;
-    }
-
-    public void setMemory(Integer memory) {
-        this.memory = memory;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -84,10 +44,6 @@ public class User implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
-        sb.append(", password=").append(password);
-        sb.append(", salt=").append(salt);
-        sb.append(", groupId=").append(groupId);
-        sb.append(", memory=").append(memory);
         sb.append(", createTime=").append(createTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

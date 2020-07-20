@@ -21,3 +21,10 @@ spring:
       username: mybedAdmin
       password: 114514
     url: jdbc:mysql://47.103.82.240:3306/imgbed?useUnicode=true&characterEncoding=utf8
+  redis:
+    host: 47.103.82.240
+    port: 8089
+    timeout: 400
+mybatis:
+  type-aliases-package: com.a205.mybed.pictureservice.pojo
+  mapper-locations: classpath:mapper/*.xml
