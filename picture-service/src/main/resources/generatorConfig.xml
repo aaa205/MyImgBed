@@ -51,6 +51,7 @@
         </javaModelGenerator>
         <!-- 生成mapxml文件 -->
         <sqlMapGenerator targetPackage="mapper" targetProject="../picture-service/src/main/resources" >
+
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 
@@ -64,8 +65,12 @@
   可以设置为somepck.domainName，那么会自动把domainName类再放到somepck包里面；
   -->
 
-        <table tableName="album"/>
-        <table tableName="picture"/>
+        <table tableName="album" >
+            <generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>
+        </table>
+        <table tableName="picture">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>
+        </table>
         <table tableName="user_album"/>
         <table tableName="album_picture"/>
 

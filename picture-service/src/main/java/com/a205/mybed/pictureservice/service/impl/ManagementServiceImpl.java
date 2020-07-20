@@ -26,17 +26,17 @@ public class ManagementServiceImpl implements ManagementService {
     public Album createAlbum(int userID, String newAlbumName) {
         // 创建相册
         Album album=new Album();
-        album.setId(userID);
         album.setName(newAlbumName);
         album.setCreateTime(new Date());
-        albumMapper.insert(album);
+        albumMapper.insertSelective(album);
+
 
         // 插入关系表
         UserAlbum userAlbum=new UserAlbum();
         userAlbum.setAlbumId(album.getId());
         userAlbum.setUserId(userID);
         userAlbumMapper.insert(userAlbum);
-        logger.info("用户ID: "+userID+" 新建相册 "+album.getName());
+        logger.info("用户("+userID+") ->新建相册 "+album.getName());
         return album;
     }
 }

@@ -19,7 +19,7 @@ public class ManagementController {
 
     /**
      * 请求为用户创建一个新相册
-     *
+     * @param request
      * @return
      */
     @PostMapping("createAlbum")

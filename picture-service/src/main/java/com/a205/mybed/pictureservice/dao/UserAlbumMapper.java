@@ -2,15 +2,14 @@ package com.a205.mybed.pictureservice.dao;
 
 import com.a205.mybed.pictureservice.pojo.UserAlbum;
 import com.a205.mybed.pictureservice.pojo.UserAlbumExample;
-
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-@Repository
 @Mapper
+@Repository
 public interface UserAlbumMapper {
     long countByExample(UserAlbumExample example);
 

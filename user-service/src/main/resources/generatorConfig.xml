@@ -64,7 +64,10 @@
   可以设置为somepck.domainName，那么会自动把domainName类再放到somepck包里面；
   -->
 
-        <table tableName="user" domainObjectName="User" enableUpdateByExample="true"/>
+        <table tableName="user">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>
+
+        </table>
 
 
 

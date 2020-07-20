@@ -104,19 +104,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.a205.mybed.pictureservice.pojo.Picture">
-    insert into picture (id, name, parent_location, 
-      upload_time, size, expire_time, 
-      type, like, md5)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentLocation,jdbcType=VARCHAR}, 
-      #{uploadTime,jdbcType=TIMESTAMP}, #{size,jdbcType=INTEGER}, #{expireTime,jdbcType=TIMESTAMP}, 
-      #{type,jdbcType=VARCHAR}, #{like,jdbcType=INTEGER}, #{md5,jdbcType=CHAR})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into picture (name, parent_location, upload_time, 
+      size, expire_time, type, 
+      like, md5)
+    values (#{name,jdbcType=VARCHAR}, #{parentLocation,jdbcType=VARCHAR}, #{uploadTime,jdbcType=TIMESTAMP}, 
+      #{size,jdbcType=INTEGER}, #{expireTime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, 
+      #{like,jdbcType=INTEGER}, #{md5,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.a205.mybed.pictureservice.pojo.Picture">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into picture
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="name != null">
         name,
       </if>
@@ -143,9 +146,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
