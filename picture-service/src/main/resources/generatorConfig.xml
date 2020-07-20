@@ -9,12 +9,15 @@
     <!-- 引入配置文件 -->
     <properties resource="database.properties"/>
 
+
     <!-- 一个数据库一个context -->
     <!--defaultModelType="flat" 大数据字段，不分表 -->
-    <context id="MybatisGenerator" targetRuntime="MyBatis3" defaultModelType="flat">
+    <context id="MybatisGenerator" targetRuntime="MyBatis3"
+             defaultModelType="flat">
+        <!-- 自动添加转义 -->
+        <property name="autoDelimitKeywords" value="true"/>
         <!-- 自动识别数据库关键字，默认false，如果设置为true，根据SqlReservedWords中定义的关键字列表；
         一般保留默认值，遇到数据库关键字（Java关键字），使用columnOverride覆盖 -->
-        <property name="autoDelimitKeywords" value="false" />
         <!-- 生成的Java文件的编码 -->
         <property name="javaFileEncoding" value="utf-8" />
         <!-- beginningDelimiter和endingDelimiter：指明数据库的用于标记数据库对象名的符号，比如ORACLE就是双引号，MYSQL默认是`反引号； -->
@@ -68,13 +71,11 @@
         <table tableName="album" >
             <generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>
         </table>
-        <table tableName="picture">
+        <table tableName="picture" >
             <generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>
         </table>
-        <table tableName="user_album"/>
+        <table tableName="user_album" />
         <table tableName="album_picture"/>
-
-
 
 
     </context>

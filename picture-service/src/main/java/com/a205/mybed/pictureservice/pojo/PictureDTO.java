@@ -22,6 +22,17 @@ public class PictureDTO {
 
     private String url;
 
+    public PictureDTO(Picture p) {
+        id=p.getId();
+        name=p.getName();
+        uploadTime=p.getUploadTime();
+        size=p.getSize();
+        expireTime=p.getExpireTime();
+        type=p.getType();
+        like=p.getLike();
+
+    }
+
     public Integer getId() {
         return id;
     }

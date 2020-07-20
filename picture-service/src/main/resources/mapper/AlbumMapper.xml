@@ -65,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, create_time
+    id, `name`, create_time
   </sql>
   <select id="selectByExample" parameterType="com.a205.mybed.pictureservice.pojo.AlbumExample" resultMap="BaseResultMap">
     select
@@ -101,7 +101,7 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into album (name, create_time)
+    insert into album (`name`, create_time)
     values (#{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.a205.mybed.pictureservice.pojo.Album">
@@ -111,7 +111,7 @@
     insert into album
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="name != null">
-        name,
+        `name`,
       </if>
       <if test="createTime != null">
         create_time,
@@ -139,7 +139,7 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+        `name` = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -152,7 +152,7 @@
   <update id="updateByExample" parameterType="map">
     update album
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
+      `name` = #{record.name,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -162,7 +162,7 @@
     update album
     <set>
       <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+        `name` = #{name,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -172,7 +172,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.a205.mybed.pictureservice.pojo.Album">
     update album
-    set name = #{name,jdbcType=VARCHAR},
+    set `name` = #{name,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
