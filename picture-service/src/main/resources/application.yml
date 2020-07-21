@@ -21,3 +21,15 @@ spring:
       username: mybedAdmin
       password: 114514
     url: jdbc:mysql://47.103.82.240:3306/imgbed?useUnicode=true&characterEncoding=utf8
+  redis:
+    host: 47.103.82.240
+    port: 8089
+    timeout: 400
+mybatis:
+  type-aliases-package: com.a205.mybed.pictureservice.pojo
+  mapper-locations: classpath:mapper/*.xml
+
+# 图片存储路径
+storage-path: D:/MYBED/mybed_storage/
+# 图片访问url前缀
+picture-url-prefix: localhost/img
