@@ -1,7 +1,7 @@
 package com.a205.mybed.pictureservice.service;
 
 import com.a205.mybed.pictureservice.pojo.Album;
-import com.a205.mybed.pictureservice.pojo.Picture;
+import com.a205.mybed.pictureservice.pojo.PictureDTO;
 
 import java.util.List;
 
@@ -18,25 +18,25 @@ public interface ManagementService {
     /**
      * 请求某用户的相册列表
      *
-     * @param userID 用户ID
+     * @param userName 用户名
      * @return 某用户拥有的相册的信息
      */
-    List<Album> getAlbums(int userID);
+    List<Album> getAlbums(String userName);
 
     /**
      * 请求用户某个相册里的图片列表
      *
-     * @param userID    用户ID
+     * @param userName    用户名
      * @param albumName 相册名称
      * @return
      */
-    List<Picture> getPicOfAlbum(int userID, String albumName);
+    List<PictureDTO> getPicOfAlbum(String userName, String albumName);
 
     /**
      * 请求某用户所有图片信息
      *
-     * @param userID 用户ID
+     * @param userName 用户名
      * @return
      */
-    List<Picture> getAllPicOfUser(int userID);
+    List<PictureDTO> getAllPicOfUser(String userName);
 }

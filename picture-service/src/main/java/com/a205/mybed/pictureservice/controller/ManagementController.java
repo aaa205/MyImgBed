@@ -1,14 +1,10 @@
 package com.a205.mybed.pictureservice.controller;
 
 import com.a205.mybed.pictureservice.pojo.Album;
-import com.a205.mybed.pictureservice.pojo.Picture;
 import com.a205.mybed.pictureservice.pojo.PictureDTO;
 import com.a205.mybed.pictureservice.service.ManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import request.CreateAlbumRequest;
 import util.RestAPIResult;
 
@@ -21,18 +17,6 @@ import java.util.List;
 public class ManagementController {
     @Autowired
     private ManagementService managementService;
-
-    @Autowired
-    private RestTemplate template;
-
-    // 用户服务url
-    private String url = "http://user-service/user/";
-
-    @Bean
-    @LoadBalanced
-    public RestTemplate getTemplate() {
-        return new RestTemplate();
-    }
 
 
     /**
@@ -55,9 +39,7 @@ public class ManagementController {
      */
     @GetMapping("getAlbums")
     public RestAPIResult<List<Album>> getAlbums(String userName) {
-        // 获取用户ID
-        int userID = template.getForObject(url + userName, Integer.class);
-        List<Album> albums = managementService.getAlbums(userID);
+        List< Album> albums=managementService.getAlbums(userName);
         return new RestAPIResult<List<Album>>().success(albums, "所有相册信息返回成功");
     }
 
@@ -71,12 +53,8 @@ public class ManagementController {
     @GetMapping("{userName}/{albumName}")
     public RestAPIResult<List<PictureDTO>> getPicOfAlbum(@PathVariable("userName") String userName,
                                                          @PathVariable("albumName") String albumName) {
-        // 获取用户ID
-        int userID = template.getForObject(url + userName, Integer.class);
-        List<Picture> pictures = managementService.getPicOfAlbum(userID, albumName);
-        // 外链url待定
-        List<PictureDTO> pictureDTOS = null;
-        return new RestAPIResult<List<PictureDTO>>().success(pictureDTOS, albumName + "相册图片返回成功");
+        List<PictureDTO> pictures = managementService.getPicOfAlbum(userName, albumName);
+        return new RestAPIResult<List<PictureDTO>>().success(pictures, albumName + "相册图片返回成功");
     }
 
     /**
@@ -87,11 +65,7 @@ public class ManagementController {
      */
     @GetMapping("{userName}/pictures")
     public RestAPIResult<List<PictureDTO>> getAllPicOfUser(@PathVariable("userName") String userName) {
-        // 获取用户ID
-        int userID = template.getForObject(url + userName, Integer.class);
-        List<Picture> pictures = managementService.getAllPicOfUser(userID);
-        // 外链url待定
-        List<PictureDTO> pictureDTOS = null;
-        return new RestAPIResult<List<PictureDTO>>().success(pictureDTOS, userName + "用户所有图片返回成功");
+        List<PictureDTO> pictures = managementService.getAllPicOfUser(userName);
+        return new RestAPIResult<List<PictureDTO>>().success(pictures, userName + "用户所有图片返回成功");
     }
 }
