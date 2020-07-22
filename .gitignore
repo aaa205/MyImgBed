@@ -1,3 +1,9 @@
 eureka-service/target/
 picture-service/target/
 user-service/target/
+
+.idea
+**/*.iml
+**/.mvn
+**/mvnw
+**/mvnw.cmd
