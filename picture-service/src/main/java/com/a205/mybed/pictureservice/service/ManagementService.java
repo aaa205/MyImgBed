@@ -10,4 +10,12 @@ public interface ManagementService {
      * @return 新创建的相册信息
      */
     Album createAlbum(int userID, String newAlbumName);
+
+    /**
+     * 赞某图片，可以重复点赞
+     * @param picID
+     * @return 点赞后的赞数
+     */
+    int likePic(int picID);
+
 }

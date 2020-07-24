@@ -1,5 +1,6 @@
 package com.a205.mybed.pictureservice.pojo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ public class PictureDTO {
 
     private Date uploadTime;
 
-    private Integer size;
+    private BigDecimal size;
 
     private Date expireTime;
 
@@ -57,11 +58,11 @@ public class PictureDTO {
         this.uploadTime = uploadTime;
     }
 
-    public Integer getSize() {
+    public BigDecimal getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(BigDecimal size) {
         this.size = size;
     }
 

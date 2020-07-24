@@ -6,7 +6,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="parent_location" jdbcType="VARCHAR" property="parentLocation" />
     <result column="upload_time" jdbcType="TIMESTAMP" property="uploadTime" />
-    <result column="size" jdbcType="INTEGER" property="size" />
+    <result column="size" jdbcType="DECIMAL" property="size" />
     <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="like" jdbcType="INTEGER" property="like" />
@@ -111,7 +111,7 @@
       `size`, expire_time, `type`, 
       `like`, md5)
     values (#{name,jdbcType=VARCHAR}, #{parentLocation,jdbcType=VARCHAR}, #{uploadTime,jdbcType=TIMESTAMP}, 
-      #{size,jdbcType=INTEGER}, #{expireTime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, 
+      #{size,jdbcType=DECIMAL}, #{expireTime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, 
       #{like,jdbcType=INTEGER}, #{md5,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.a205.mybed.pictureservice.pojo.Picture">
@@ -156,7 +156,7 @@
         #{uploadTime,jdbcType=TIMESTAMP},
       </if>
       <if test="size != null">
-        #{size,jdbcType=INTEGER},
+        #{size,jdbcType=DECIMAL},
       </if>
       <if test="expireTime != null">
         #{expireTime,jdbcType=TIMESTAMP},
@@ -194,7 +194,7 @@
         upload_time = #{record.uploadTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.size != null">
-        `size` = #{record.size,jdbcType=INTEGER},
+        `size` = #{record.size,jdbcType=DECIMAL},
       </if>
       <if test="record.expireTime != null">
         expire_time = #{record.expireTime,jdbcType=TIMESTAMP},
@@ -219,7 +219,7 @@
       `name` = #{record.name,jdbcType=VARCHAR},
       parent_location = #{record.parentLocation,jdbcType=VARCHAR},
       upload_time = #{record.uploadTime,jdbcType=TIMESTAMP},
-      `size` = #{record.size,jdbcType=INTEGER},
+      `size` = #{record.size,jdbcType=DECIMAL},
       expire_time = #{record.expireTime,jdbcType=TIMESTAMP},
       `type` = #{record.type,jdbcType=VARCHAR},
       `like` = #{record.like,jdbcType=INTEGER},
@@ -241,7 +241,7 @@
         upload_time = #{uploadTime,jdbcType=TIMESTAMP},
       </if>
       <if test="size != null">
-        `size` = #{size,jdbcType=INTEGER},
+        `size` = #{size,jdbcType=DECIMAL},
       </if>
       <if test="expireTime != null">
         expire_time = #{expireTime,jdbcType=TIMESTAMP},
@@ -263,11 +263,17 @@
     set `name` = #{name,jdbcType=VARCHAR},
       parent_location = #{parentLocation,jdbcType=VARCHAR},
       upload_time = #{uploadTime,jdbcType=TIMESTAMP},
-      `size` = #{size,jdbcType=INTEGER},
+      `size` = #{size,jdbcType=DECIMAL},
       expire_time = #{expireTime,jdbcType=TIMESTAMP},
       `type` = #{type,jdbcType=VARCHAR},
       `like` = #{like,jdbcType=INTEGER},
       md5 = #{md5,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--赞数自增-->
+  <update id="likeIncrUpdateByPrimaryKey" parameterType="java.lang.Integer">
+    update picture
+    set `like`=`like`+1
+    where id =#{picID}
   </update>
 </mapper>

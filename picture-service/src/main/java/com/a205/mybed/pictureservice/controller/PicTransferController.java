@@ -24,7 +24,6 @@ public class PicTransferController {
      * @return
      */
     @PostMapping("upload")
-
     public RestAPIResult<PictureDTO> uploadPic(UploadPicRequest request) throws Exception {
         PictureDTO data = transferService.upload(request.getFile(), request.getAlbumID());
         RestAPIResult<PictureDTO> result = new RestAPIResult<>();

@@ -8,7 +8,6 @@ import com.a205.mybed.pictureservice.pojo.PictureDTO;
 import com.a205.mybed.pictureservice.pojo.PictureExample;
 import com.a205.mybed.pictureservice.service.TransferService;
 import com.a205.mybed.pictureservice.util.FileUtil;
-import org.apache.http.client.utils.URIBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +19,10 @@ import util.MD5Util;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -69,7 +66,7 @@ public class TransferServiceImpl implements TransferService {
         // 填充返回结果
         PictureDTO data = new PictureDTO(picture);
 
-        data.setUrl(FileUtil.buildPicUrl(picture,urlPrefix));
+        data.setUrl(fileUtil.buildPicUrl(picture,urlPrefix));
         return data;
     }
 
@@ -87,13 +84,18 @@ public class TransferServiceImpl implements TransferService {
     private Picture savePic(MultipartFile file, String type, int albumID, String md5) throws IOException {
         // 确定图片保存相对路径
         String parent = fileUtil.getPicRelativePath();
+        File destParent=new File(storagePath+parent);
+        if(!destParent.exists())
+            destParent.mkdirs();
         // 保存信息到数据库
         Picture picture = new Picture();
         picture.setMd5(md5);
         picture.setName(md5);// 用md5做文件名
         picture.setType(type);
         picture.setParentLocation(parent);
-        picture.setSize(0);// 大小是long型，数据库对不上，先不管了
+        BigDecimal decimal=new BigDecimal(fileUtil.sizeInMB(file.getSize()));
+        picture.setSize(decimal);//图片大小 MB为单位
+        logger.info("文件大小："+picture.getSize()+"MB");
         picture.setLike(0);
         // 处理时间
         Calendar calendar = Calendar.getInstance();

@@ -44,7 +44,7 @@ public class ManagementController {
     }
 
     /**
-     * 请求用户某个相册里的图片列表(图片URL信息生成方式未定，先不管)
+     * 请求用户某个相册里的图片列表
      *
      * @param userName  用户名称
      * @param albumName 相册名称
@@ -52,14 +52,15 @@ public class ManagementController {
      */
     @GetMapping("{userName}/{albumName}")
     public RestAPIResult<List<PictureDTO>> getPicOfAlbum(@PathVariable("userName") String userName,
-             @PathVariable("albumName") String albumName) {
+                                                         @PathVariable("albumName") String albumName) {
         // todo
-        Picture p=new Picture();
+        Picture p = new Picture();
         return null;
     }
 
     /**
-     * 请求某用户所有图片信息(图片URL信息生成方式未定，先不管)
+     * 请求某用户所有图片信息
+     *
      * @param userName 用户名称
      * @return 请求的图片信息
      */
@@ -68,4 +69,22 @@ public class ManagementController {
         // todo
         return null;
     }
+
+    /**
+     * 点赞某图片
+     *
+     * @param picID
+     * @return
+     */
+    @PatchMapping("addLike")
+    public RestAPIResult<Object> likePic(int picID) {
+        int affected=managementService.likePic(picID);
+        RestAPIResult<Object> res = new RestAPIResult<>();
+        if (affected>0)
+            return res.success(null, "点赞成功");
+        else
+            return res.error(1,"该图片不存在");
+    }
+
+
 }
