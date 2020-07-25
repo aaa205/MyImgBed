@@ -1,10 +1,15 @@
 package com.a205.mybed.userservice.dao;
 
-import pojo.User;
+import com.a205.mybed.userservice.pojo.User;
 import com.a205.mybed.userservice.pojo.UserExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+@Mapper
+@Repository
 public interface UserMapper {
     long countByExample(UserExample example);
 

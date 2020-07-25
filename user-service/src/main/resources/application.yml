@@ -21,3 +21,7 @@ spring:
       username: mybedAdmin
       password: 114514
     url: jdbc:mysql://47.103.82.240:3306/imgbed?useUnicode=true&characterEncoding=utf8
+
+mybatis:
+ type-aliases-package: com.a205.mybed.userservice.pojo
+ mapper-locations: classpath:mapper/*.xml
