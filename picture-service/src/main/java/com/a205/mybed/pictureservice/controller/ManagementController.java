@@ -7,6 +7,7 @@ import com.a205.mybed.pictureservice.service.ManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import request.CreateAlbumRequest;
+import request.DeletePicRequest;
 import util.RestAPIResult;
 
 import java.net.URISyntaxException;
@@ -24,11 +25,12 @@ public class ManagementController {
      * 请求为用户创建一个新相册
      *
      * @param request
-     * @return 新建的相册信息
+     * @param uid
+     * @return
      */
-    @PostMapping("createAlbum")
-    public RestAPIResult<Album> createAlbum(@RequestBody CreateAlbumRequest request) {
-        Album newAlbum = managementService.createAlbum(request.getUserID(), request.getNewAlbumName());
+    @PostMapping("u/{uid}/albums")
+    public RestAPIResult<Album> createAlbum(@RequestBody CreateAlbumRequest request, @PathVariable("uid") int uid) {
+        Album newAlbum = managementService.createAlbum(uid, request.getNewAlbumName());
         return new RestAPIResult<Album>().success(newAlbum, "相册创建成功");
     }
 
@@ -52,7 +54,7 @@ public class ManagementController {
      * @return
      * @throws URISyntaxException
      */
-    @GetMapping("/u/{uid}/album/{albumId}")
+    @GetMapping("/u/{uid}/albums/{albumId}")
     public RestAPIResult<List<PictureDTO>> getPicByAlbumID(@PathVariable("uid") int uid, @PathVariable("albumId") int aid) throws URISyntaxException {
         return new RestAPIResult<List<PictureDTO>>().success(managementService.getPicByAlbumID(aid), "获取成功");
     }
@@ -67,6 +69,7 @@ public class ManagementController {
     public RestAPIResult<List<PictureDTO>> getAllPicOfUser(@PathVariable("uid") int uid) throws URISyntaxException {
         return new RestAPIResult<List<PictureDTO>>().success(managementService.getPicByUserID(uid), "获取成功");
     }
+
 
     /**
      * 点赞某图片
@@ -86,6 +89,7 @@ public class ManagementController {
 
     /**
      * 获取某图片详情
+     *
      * @param pid 图片ID
      * @return
      * @throws URISyntaxException
@@ -94,6 +98,22 @@ public class ManagementController {
     @GetMapping("p/{pid}")
     public RestAPIResult<PictureDTO> getPicByPicID(@PathVariable("pid") int pid) throws URISyntaxException, ResourceNotFoundException {
         return new RestAPIResult<PictureDTO>().success(managementService.getPicByPicID(pid), "查找成功");
+    }
+
+    /**
+     * 删除某用户下的照片，需要指定相册
+     *
+     * @param request
+     * @return
+     */
+    @DeleteMapping("p/{pid}")
+    public RestAPIResult<Object> deletePicInAlbum(@RequestBody DeletePicRequest request, @PathVariable("pid") int pid) throws ResourceNotFoundException {
+        boolean ok = managementService.deletePicInAlbum(pid, request.getAlbumID(), request.getUserID());
+        RestAPIResult<Object> res = new RestAPIResult<>();
+        if (ok)
+            return res.success(null, "删除成功");
+        else
+            throw new ResourceNotFoundException("相册中不存在该图片");
     }
 
 

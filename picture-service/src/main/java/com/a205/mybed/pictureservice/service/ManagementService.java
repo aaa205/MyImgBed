@@ -53,4 +53,14 @@ public interface ManagementService {
      */
     PictureDTO getPicByPicID(int pid) throws URISyntaxException, ResourceNotFoundException;
 
+    /**
+     * 删除某用户的一张图片，只删除对应关系，不实际删除图片和信息
+     * 有缺陷，如果一张图片被所有持有的用户删除，应该删除所有它所有内容，这里没做）
+     * @param pid 图片id
+     * @param aid 相册id
+     * @param uid 用户id
+     * @return
+     */
+    boolean deletePicInAlbum(int pid,int aid,int uid) ;
+
 }

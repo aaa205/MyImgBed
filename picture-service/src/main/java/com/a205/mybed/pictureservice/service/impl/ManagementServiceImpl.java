@@ -135,10 +135,23 @@ public class ManagementServiceImpl implements ManagementService {
      */
     @Override
     public PictureDTO getPicByPicID(int pid) throws URISyntaxException, ResourceNotFoundException {
-        Picture p=pictureMapper.selectByPrimaryKey(pid);
-        if(p==null)
+        Picture p = pictureMapper.selectByPrimaryKey(pid);
+        if (p == null)
             throw new ResourceNotFoundException();
         return buildPictureDTO(p);
+    }
+
+    /**
+     * 在相册中删除某图片
+     * @param pid 图片id
+     * @param aid 相册id
+     * @param uid 用户id
+     * @return
+     */
+    @Override
+    public boolean deletePicInAlbum(int pid, int aid, int uid) {
+        int affected = albumPictureMapper.deleteByPrimaryKey(aid, pid);
+        return affected > 0;
     }
 
     /**
