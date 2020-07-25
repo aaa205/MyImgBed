@@ -74,6 +74,9 @@
         <table tableName="picture" >
             <generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>
         </table>
+        <table tableName="user" >
+            <generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>
+        </table>
         <table tableName="user_album" />
         <table tableName="album_picture"/>
 

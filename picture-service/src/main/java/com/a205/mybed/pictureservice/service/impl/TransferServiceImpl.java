@@ -2,13 +2,10 @@ package com.a205.mybed.pictureservice.service.impl;
 
 import com.a205.mybed.pictureservice.dao.AlbumPictureMapper;
 import com.a205.mybed.pictureservice.dao.PictureMapper;
-import com.a205.mybed.pictureservice.pojo.AlbumPicture;
-import com.a205.mybed.pictureservice.pojo.Picture;
-import com.a205.mybed.pictureservice.pojo.PictureDTO;
-import com.a205.mybed.pictureservice.pojo.PictureExample;
+import com.a205.mybed.pictureservice.pojo.*;
 import com.a205.mybed.pictureservice.service.TransferService;
 import com.a205.mybed.pictureservice.util.FileUtil;
-import org.apache.http.client.utils.URIBuilder;
+import com.a205.mybed.pictureservice.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +17,9 @@ import util.MD5Util;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -43,6 +37,12 @@ public class TransferServiceImpl implements TransferService {
     private PictureMapper pictureMapper;
     @Autowired
     private AlbumPictureMapper albumPictureMapper;
+    @Autowired
+    private RedisUtil redisUtil;
+    @Value("${cache-expire-second}")
+    private int cacheExpireSecond;// 缓存过期时间
+    @Value("${cache-prefix.picture}")
+    private String cachePicKeyPrefix;// picture在redis中key的前缀
 
     /**
      * 上传图片
@@ -64,15 +64,29 @@ public class TransferServiceImpl implements TransferService {
         String md5 = MD5Util.generateMD5(file.getInputStream());
         logger.info("文件MD5为:" + md5);
         Picture picture = getPicByMD5(md5); // 数据库里找有没有已保存，有的话直接取出
-        if (picture == null)
+        if (picture == null) {
+            logger.info("文件不存在，开始保存");
             picture = savePic(file, fileSuffix, albumID, md5);// 如果找不到，则保存
+        }
+        // 装填数据
+        AlbumPicture ap = new AlbumPicture();
+        ap.setAlbumId(albumID);
+        ap.setPictureId(picture.getId());
+        // 检查数据库中是否已存在关系
+        AlbumPictureExample example = new AlbumPictureExample();
+        example.or().andAlbumIdEqualTo(ap.getAlbumId()).andPictureIdEqualTo(ap.getPictureId());
+        if (albumPictureMapper.selectByExample(example) == null) {
+            // 保存相册-图片关系
+            albumPictureMapper.insert(ap);
+            logger.info("保存关系到数据库");
+        }
         // 填充返回结果
         PictureDTO data = new PictureDTO(picture);
-
-        data.setUrl(FileUtil.buildPicUrl(picture,urlPrefix));
+        data.setUrl(fileUtil.buildPicUrl(picture));
+        // 保存到缓存中
+        redisUtil.setex(cachePicKeyPrefix+data.getId(),cacheExpireSecond,data);
         return data;
     }
-
 
 
     /**
@@ -87,13 +101,18 @@ public class TransferServiceImpl implements TransferService {
     private Picture savePic(MultipartFile file, String type, int albumID, String md5) throws IOException {
         // 确定图片保存相对路径
         String parent = fileUtil.getPicRelativePath();
+        File destParent = new File(storagePath + parent);
+        if (!destParent.exists())
+            destParent.mkdirs();
         // 保存信息到数据库
         Picture picture = new Picture();
         picture.setMd5(md5);
         picture.setName(md5);// 用md5做文件名
         picture.setType(type);
         picture.setParentLocation(parent);
-        picture.setSize(0);// 大小是long型，数据库对不上，先不管了
+        BigDecimal decimal = new BigDecimal(fileUtil.sizeInMB(file.getSize()));
+        picture.setSize(decimal);//图片大小 MB为单位
+        logger.info("文件大小：" + picture.getSize() + "MB");
         picture.setLike(0);
         // 处理时间
         Calendar calendar = Calendar.getInstance();
@@ -101,12 +120,7 @@ public class TransferServiceImpl implements TransferService {
         calendar.add(Calendar.YEAR, 1);
         picture.setExpireTime(calendar.getTime());
         pictureMapper.insert(picture);
-        // 保存相册-图片关系
-        AlbumPicture ap = new AlbumPicture();
-        ap.setAlbumId(albumID);
-        ap.setPictureId(picture.getId());
-        albumPictureMapper.insert(ap);
-        logger.info("保存信息到数据库");
+
         // 保存图片
         Path dest = Paths.get(storagePath, parent, md5 + "." + type);
         file.transferTo(dest);
