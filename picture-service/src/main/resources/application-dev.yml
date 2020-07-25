@@ -1,0 +1,33 @@
+server:
+  port: 8082
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: http://localhost:8090/eureka/
+
+  instance:
+    lease-expiration-duration-in-seconds: 30
+    lease-renewal-interval-in-seconds: 10
+    instance-id: picture-service
+spring:
+  application:
+    name: picture-service
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      username: mybedAdmin
+      password: 114514
+    url: jdbc:mysql://47.103.82.240:3306/imgbed?useUnicode=true&characterEncoding=utf8
+  redis:
+    host: 47.103.82.240
+    port: 8089
+    timeout: 400
+
+
+# 图片存储路径
+storage-path: D:/MYBED/mybed_storage/
+# 图片访问url前缀
+picture-url-prefix: localhost/img

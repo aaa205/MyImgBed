@@ -1,5 +1,6 @@
 package com.a205.mybed.pictureservice.pojo;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -375,52 +376,52 @@ public class PictureExample {
             return (Criteria) this;
         }
 
-        public Criteria andSizeEqualTo(Integer value) {
+        public Criteria andSizeEqualTo(BigDecimal value) {
             addCriterion("`size` =", value, "size");
             return (Criteria) this;
         }
 
-        public Criteria andSizeNotEqualTo(Integer value) {
+        public Criteria andSizeNotEqualTo(BigDecimal value) {
             addCriterion("`size` <>", value, "size");
             return (Criteria) this;
         }
 
-        public Criteria andSizeGreaterThan(Integer value) {
+        public Criteria andSizeGreaterThan(BigDecimal value) {
             addCriterion("`size` >", value, "size");
             return (Criteria) this;
         }
 
-        public Criteria andSizeGreaterThanOrEqualTo(Integer value) {
+        public Criteria andSizeGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("`size` >=", value, "size");
             return (Criteria) this;
         }
 
-        public Criteria andSizeLessThan(Integer value) {
+        public Criteria andSizeLessThan(BigDecimal value) {
             addCriterion("`size` <", value, "size");
             return (Criteria) this;
         }
 
-        public Criteria andSizeLessThanOrEqualTo(Integer value) {
+        public Criteria andSizeLessThanOrEqualTo(BigDecimal value) {
             addCriterion("`size` <=", value, "size");
             return (Criteria) this;
         }
 
-        public Criteria andSizeIn(List<Integer> values) {
+        public Criteria andSizeIn(List<BigDecimal> values) {
             addCriterion("`size` in", values, "size");
             return (Criteria) this;
         }
 
-        public Criteria andSizeNotIn(List<Integer> values) {
+        public Criteria andSizeNotIn(List<BigDecimal> values) {
             addCriterion("`size` not in", values, "size");
             return (Criteria) this;
         }
 
-        public Criteria andSizeBetween(Integer value1, Integer value2) {
+        public Criteria andSizeBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("`size` between", value1, value2, "size");
             return (Criteria) this;
         }
 
-        public Criteria andSizeNotBetween(Integer value1, Integer value2) {
+        public Criteria andSizeNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("`size` not between", value1, value2, "size");
             return (Criteria) this;
         }
