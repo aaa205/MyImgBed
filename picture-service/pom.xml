@@ -8,7 +8,6 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
-
     <groupId>com.a205.mybed</groupId>
     <artifactId>picture-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -74,7 +73,6 @@
             </exclusions>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>

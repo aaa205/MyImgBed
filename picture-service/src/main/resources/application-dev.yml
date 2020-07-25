@@ -27,6 +27,6 @@ spring:
 
 
 # 图片存储路径
-storage-path: D:/MYBED/mybed_storage/
+storage-path: ./imgs/
 # 图片访问url前缀
 picture-url-prefix: localhost/img
