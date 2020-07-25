@@ -1,5 +1,6 @@
 package com.a205.mybed.pictureservice.controller;
 
+import com.a205.mybed.pictureservice.exception.ResourceNotFoundException;
 import com.a205.mybed.pictureservice.pojo.Album;
 import com.a205.mybed.pictureservice.pojo.PictureDTO;
 import com.a205.mybed.pictureservice.service.ManagementService;
@@ -45,6 +46,7 @@ public class ManagementController {
 
     /**
      * 请求某个相册里的图片
+     *
      * @param uid
      * @param aid
      * @return
@@ -62,7 +64,7 @@ public class ManagementController {
      * @return
      */
     @GetMapping("/u/{uid}/pictures")
-    public RestAPIResult<List<PictureDTO>> getAllPicOfUser( @PathVariable("uid") int uid) throws URISyntaxException {
+    public RestAPIResult<List<PictureDTO>> getAllPicOfUser(@PathVariable("uid") int uid) throws URISyntaxException {
         return new RestAPIResult<List<PictureDTO>>().success(managementService.getPicByUserID(uid), "获取成功");
     }
 
@@ -80,6 +82,18 @@ public class ManagementController {
             return res.success(null, "点赞成功");
         else
             return res.error(1, "该图片不存在");
+    }
+
+    /**
+     * 获取某图片详情
+     * @param pid 图片ID
+     * @return
+     * @throws URISyntaxException
+     */
+
+    @GetMapping("p/{pid}")
+    public RestAPIResult<PictureDTO> getPicByPicID(@PathVariable("pid") int pid) throws URISyntaxException, ResourceNotFoundException {
+        return new RestAPIResult<PictureDTO>().success(managementService.getPicByPicID(pid), "查找成功");
     }
 
 

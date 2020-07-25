@@ -1,5 +1,6 @@
 package com.a205.mybed.pictureservice.service;
 
+import com.a205.mybed.pictureservice.exception.ResourceNotFoundException;
 import com.a205.mybed.pictureservice.pojo.Album;
 import com.a205.mybed.pictureservice.pojo.PictureDTO;
 
@@ -44,5 +45,12 @@ public interface ManagementService {
      * @return
      */
     List<PictureDTO> getPicByAlbumID(int aid) throws URISyntaxException;
+
+    /**
+     * 获取某图片详情
+     * @param pid 图片ID
+     * @return
+     */
+    PictureDTO getPicByPicID(int pid) throws URISyntaxException, ResourceNotFoundException;
 
 }

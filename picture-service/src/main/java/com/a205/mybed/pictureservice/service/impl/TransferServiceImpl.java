@@ -66,7 +66,7 @@ public class TransferServiceImpl implements TransferService {
         // 填充返回结果
         PictureDTO data = new PictureDTO(picture);
 
-        data.setUrl(fileUtil.buildPicUrl(picture,urlPrefix));
+        data.setUrl(fileUtil.buildPicUrl(picture));
         return data;
     }
 

@@ -2,6 +2,7 @@ package com.a205.mybed.pictureservice.util;
 
 import com.a205.mybed.pictureservice.pojo.Picture;
 import org.apache.http.client.utils.URIBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.net.URISyntaxException;
@@ -18,6 +19,9 @@ public class FileUtil {
     private List<String> allowedImageTypes = Arrays.asList("jpeg","jpg","png","gif");
     // 计算单位的除数 2^20
     private long units=1<<20;
+
+    @Value("${picture-url-prefix}")
+    private String urlPrefix;
 
     /**
      * 2020-7-20上传的文件存放在 ${starge-path}/2020/7/20/picName.png
@@ -44,11 +48,10 @@ public class FileUtil {
     /**
      * 构建图片的URL
      * @param p 指定的照片
-     * @param urlPrefix 链接前缀
      * @return 完整的图片url
      * @throws URISyntaxException
      */
-    public String buildPicUrl(Picture p, String urlPrefix) throws URISyntaxException {
+    public String buildPicUrl(Picture p) throws URISyntaxException {
         URIBuilder builder = new URIBuilder();
         String[] segArr=p.getParentLocation().split("/");
         builder.setHost(urlPrefix)

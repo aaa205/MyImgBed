@@ -1,6 +1,7 @@
 package com.a205.mybed.pictureservice.service.impl;
 
 import com.a205.mybed.pictureservice.dao.*;
+import com.a205.mybed.pictureservice.exception.ResourceNotFoundException;
 import com.a205.mybed.pictureservice.pojo.*;
 import com.a205.mybed.pictureservice.service.ManagementService;
 import com.a205.mybed.pictureservice.util.FileUtil;
@@ -96,20 +97,16 @@ public class ManagementServiceImpl implements ManagementService {
         List<UserAlbum> uaList = userAlbumMapper.selectByExample(ua);
         if (uaList.size() == 0) return result;
         List<Integer> aidList = uaList.stream().map(UserAlbum::getAlbumId).collect(Collectors.toList());
-
         // 根据相册id查图片id
         AlbumPictureExample ap = new AlbumPictureExample();
         ap.or().andAlbumIdIn(aidList);
         List<Integer> pidList = albumPictureMapper.selectByExample(ap).stream().map(AlbumPicture::getPictureId).collect(Collectors.toList());
-        if(pidList.size()==0) return result;
+        if (pidList.size() == 0) return result;
         // 查出图片
         List<Picture> pics = pictureMapper.selectByPidList(pidList);
         // 装填数据
-
         for (Picture i : pics) {
-            PictureDTO dto = new PictureDTO(i);
-            dto.setUrl(fileUtil.buildPicUrl(i, urlPrefix));
-            result.add(dto);
+            result.add(buildPictureDTO(i));
         }
         return result;
     }
@@ -125,11 +122,36 @@ public class ManagementServiceImpl implements ManagementService {
         List<Picture> pics = pictureMapper.selectByAlbumID(aid);
         List<PictureDTO> res = new ArrayList<>(pics.size());
         for (Picture i : pics) {
-            PictureDTO dto = new PictureDTO(i);
-            dto.setUrl(fileUtil.buildPicUrl(i, urlPrefix));
-            res.add(dto);
+            res.add(buildPictureDTO(i));
         }
         return res;
+    }
+
+    /**
+     * 获取某图片详情
+     *
+     * @param pid 图片ID
+     * @return
+     */
+    @Override
+    public PictureDTO getPicByPicID(int pid) throws URISyntaxException, ResourceNotFoundException {
+        Picture p=pictureMapper.selectByPrimaryKey(pid);
+        if(p==null)
+            throw new ResourceNotFoundException();
+        return buildPictureDTO(p);
+    }
+
+    /**
+     * 由Picture构建PictureDTO
+     *
+     * @param p
+     * @return
+     * @throws URISyntaxException
+     */
+    private PictureDTO buildPictureDTO(Picture p) throws URISyntaxException {
+        PictureDTO dto = new PictureDTO(p);
+        dto.setUrl(fileUtil.buildPicUrl(p));
+        return dto;
     }
 
 
