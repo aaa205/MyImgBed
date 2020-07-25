@@ -29,6 +29,4 @@ public class PicTransferController {
         RestAPIResult<PictureDTO> result = new RestAPIResult<>();
         return result.success(data, "上传成功");
     }
-
-
 }

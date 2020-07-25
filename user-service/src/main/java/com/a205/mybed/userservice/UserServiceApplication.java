@@ -44,7 +44,6 @@ public class UserServiceApplication {
     /**
      * 引入其他模块类测试
      */
-    TestUtil util=new TestUtil();
 
 
 }
