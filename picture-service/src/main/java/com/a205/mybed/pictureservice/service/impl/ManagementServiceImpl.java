@@ -29,8 +29,6 @@ public class ManagementServiceImpl implements ManagementService {
     @Autowired
     private PictureMapper pictureMapper;
     @Autowired
-    private UserMapper userMapper;
-    @Autowired
     private AlbumPictureMapper albumPictureMapper;
     @Autowired
     private RedisUtil redisUtil;
