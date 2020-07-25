@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StopWatch;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -36,6 +37,10 @@ public class ManagementServiceImpl implements ManagementService {
     private String urlPrefix;
     @Autowired
     private FileUtil fileUtil;
+    @Value("${cache-expire-second}")
+    private int cacheExpireSecond;// 缓存过期时间
+    @Value("${cache-prefix.picture}")
+    private String cachePicKeyPrefix;// picture在redis中key的前缀
 
 
     @Override
@@ -133,14 +138,32 @@ public class ManagementServiceImpl implements ManagementService {
      */
     @Override
     public PictureDTO getPicByPicID(int pid) throws URISyntaxException, ResourceNotFoundException {
-        Picture p = pictureMapper.selectByPrimaryKey(pid);
-        if (p == null)
-            throw new ResourceNotFoundException();
-        return buildPictureDTO(p);
+        StopWatch sw = new StopWatch();
+        logger.info("查找图片开始");
+        sw.start();
+        // 先在redis里找
+        PictureDTO dto = redisUtil.getValue(cachePicKeyPrefix + pid, PictureDTO.class);
+        if (dto != null) {
+            logger.info("从缓存读取到pid:{}", pid);
+        } else {
+            // 找不到数据库找
+            Picture p = pictureMapper.selectByPrimaryKey(pid);
+            if (p == null)
+                throw new ResourceNotFoundException();
+            dto = buildPictureDTO(p);
+            // 数据库找完了 保存到缓存中
+            redisUtil.setex(cachePicKeyPrefix + pid, cacheExpireSecond, dto);
+            logger.info("保存到缓冲中 key {}", cachePicKeyPrefix + pid);
+        }
+        sw.stop();
+        logger.info("查找图片完成，耗时：{}s", sw.getTotalTimeSeconds());
+
+        return dto;
     }
 
     /**
      * 在相册中删除某图片
+     *
      * @param pid 图片id
      * @param aid 相册id
      * @param uid 用户id

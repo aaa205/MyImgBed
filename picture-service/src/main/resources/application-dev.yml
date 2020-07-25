@@ -26,6 +26,7 @@ spring:
     port: 8089
     timeout: 400
 
+
 # 图片存储路径
 storage-path: D:/MYBED/mybed_storage/
 # 图片访问url前缀

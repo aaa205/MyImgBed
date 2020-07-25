@@ -23,6 +23,9 @@ public class PictureDTO {
 
     private String url;
 
+    public PictureDTO() {
+    }
+
     public PictureDTO(Picture p) {
         id=p.getId();
         name=p.getName();

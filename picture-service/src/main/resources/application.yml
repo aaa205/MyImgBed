@@ -4,6 +4,10 @@ spring:
   jackson:
     default-property-inclusion: non_null
 
+cache-expire-second: 600
+cache-prefix:
+  picture: "picture:id:"
+
 mybatis:
   type-aliases-package: com.a205.mybed.pictureservice.pojo
   mapper-locations: classpath:mapper/*.xml

@@ -2,10 +2,10 @@ package com.a205.mybed.pictureservice.service.impl;
 
 import com.a205.mybed.pictureservice.dao.AlbumPictureMapper;
 import com.a205.mybed.pictureservice.dao.PictureMapper;
-import com.a205.mybed.pictureservice.exception.DuplicatePictureException;
 import com.a205.mybed.pictureservice.pojo.*;
 import com.a205.mybed.pictureservice.service.TransferService;
 import com.a205.mybed.pictureservice.util.FileUtil;
+import com.a205.mybed.pictureservice.util.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ import util.MD5Util;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Calendar;
@@ -38,6 +37,12 @@ public class TransferServiceImpl implements TransferService {
     private PictureMapper pictureMapper;
     @Autowired
     private AlbumPictureMapper albumPictureMapper;
+    @Autowired
+    private RedisUtil redisUtil;
+    @Value("${cache-expire-second}")
+    private int cacheExpireSecond;// 缓存过期时间
+    @Value("${cache-prefix.picture}")
+    private String cachePicKeyPrefix;// picture在redis中key的前缀
 
     /**
      * 上传图片
@@ -70,7 +75,7 @@ public class TransferServiceImpl implements TransferService {
         // 检查数据库中是否已存在关系
         AlbumPictureExample example = new AlbumPictureExample();
         example.or().andAlbumIdEqualTo(ap.getAlbumId()).andPictureIdEqualTo(ap.getPictureId());
-        if(albumPictureMapper.selectByExample(example)==null) {
+        if (albumPictureMapper.selectByExample(example) == null) {
             // 保存相册-图片关系
             albumPictureMapper.insert(ap);
             logger.info("保存关系到数据库");
@@ -78,6 +83,8 @@ public class TransferServiceImpl implements TransferService {
         // 填充返回结果
         PictureDTO data = new PictureDTO(picture);
         data.setUrl(fileUtil.buildPicUrl(picture));
+        // 保存到缓存中
+        redisUtil.setex(cachePicKeyPrefix+data.getId(),cacheExpireSecond,data);
         return data;
     }
 
