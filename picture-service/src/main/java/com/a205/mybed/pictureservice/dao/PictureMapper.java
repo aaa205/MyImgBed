@@ -33,5 +33,9 @@ public interface PictureMapper {
 
     int updateByPrimaryKey(Picture record);
 
-    int likeIncrUpdateByPrimaryKey(@Param("picID") int picID);
+    int likeIncrUpdateByPrimaryKey(@Param("id") Integer id);
+
+    List<Picture> selectByAlbumID(@Param("aid") Integer albumID);
+
+    List<Picture> selectByPidList(@Param("list") List<Integer> idList);
 }

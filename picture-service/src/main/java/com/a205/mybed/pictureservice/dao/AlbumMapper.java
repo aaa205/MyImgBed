@@ -2,6 +2,7 @@ package com.a205.mybed.pictureservice.dao;
 
 import com.a205.mybed.pictureservice.pojo.Album;
 import com.a205.mybed.pictureservice.pojo.AlbumExample;
+
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -32,4 +33,6 @@ public interface AlbumMapper {
     int updateByPrimaryKeySelective(Album record);
 
     int updateByPrimaryKey(Album record);
+
+    List<Album> selectByUserID(int uid);
 }
