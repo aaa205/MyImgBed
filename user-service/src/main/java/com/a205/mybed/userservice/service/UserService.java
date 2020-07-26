@@ -1,7 +1,7 @@
 package com.a205.mybed.userservice.service;
 
 import com.a205.mybed.userservice.pojo.User;
-import org.springframework.stereotype.Service;
+import com.a205.mybed.userservice.pojo.UserDTO;
 
 /*
 * 用户service
@@ -12,5 +12,6 @@ import org.springframework.stereotype.Service;
 public interface UserService
 {
     User register(String name,String password);
-    int login(String name,String password);
+    UserDTO login(String name, String password);
+    boolean isAlive(String token);
 }
