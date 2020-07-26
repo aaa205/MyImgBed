@@ -69,7 +69,6 @@
 
         <table tableName="user" delimitIdentifiers="true">
             <generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>
-
         </table>
 
 

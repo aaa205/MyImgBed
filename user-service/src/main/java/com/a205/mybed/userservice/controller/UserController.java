@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import request.LoginRequest;
 import request.RegisterRequest;
+import response.IsAliveResponseData;
 import response.LoginResponseData;
 import util.RestAPIResult;
+
+import java.util.HashMap;
 
 /**
  * 用户controller
@@ -65,9 +68,21 @@ public class UserController {
      * @return
      */
     @GetMapping("isAlive")
-    public Boolean isAlive(String token) {
-        RestAPIResult<LoginResponseData> result = new RestAPIResult<>();
-        return (userService.isAlive(token));
+    public RestAPIResult<IsAliveResponseData> isAlive(String token) {
+        RestAPIResult<IsAliveResponseData> result = new RestAPIResult<>();
+        IsAliveResponseData isAliveResponseData=new IsAliveResponseData();
+        HashMap<String,String> map=userService.isAlive(token);
+        if(map!=null)
+        {
+            isAliveResponseData.setAlive(true);
+            isAliveResponseData.setUserID(Integer.parseInt(map.get("id")));
+            isAliveResponseData.setName(map.get("name"));
+
+        }
+        else{
+            isAliveResponseData.setAlive(false);
+        }
+        return result.success(isAliveResponseData,"用户登录信息已返回");
 
     }
 
