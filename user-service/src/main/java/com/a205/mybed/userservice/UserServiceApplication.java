@@ -21,33 +21,5 @@ public class UserServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(UserServiceApplication.class, args);
     }
-//
-//    /**
-//     * test
-//     */
-//    @Autowired
-//    RestTemplate template;
-//
-//    @Bean
-//    @LoadBalanced
-//    public RestTemplate getTemplate() {
-//        return new RestTemplate();
-//    }
-//
-//    /**
-//     * 调用其他微服务演示
-//     * @return
-//     */
-//    @GetMapping("/test")
-//    public String test() {
-//        return "this is user-service\n and call picture-service : " +
-//                template.getForObject("http://picture-service/test", String.class);
-//    }
-//
-//    /**
-//     * 引入其他模块类测试
-//     */
-////    TestUtil util=new TestUtil();
-
 
 }

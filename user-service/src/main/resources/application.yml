@@ -21,6 +21,11 @@ spring:
       username: mybedAdmin
       password: 114514
     url: jdbc:mysql://47.103.82.240:3306/imgbed?useUnicode=true&characterEncoding=utf8
+  redis:
+    host: 139.9.4.38
+    port: 6389
+  jackson:
+    default-property-inclusion: non_null
 
 mybatis:
  type-aliases-package: com.a205.mybed.userservice.pojo
@@ -37,6 +42,3 @@ audience:
   name: restapiuser
   # 过期时间，时间戳
   expiresSecond: 172800
-redis:
-  host: localhost
-  port: 6379

@@ -37,13 +37,11 @@ public class UserController {
         //如果service层返回一个空对象
         if (user == null)
             return result.error(1, "注册失败");
+        // 删除敏感信息 @ Fungx
+        user.setSalt(null);
+        user.setPassword(null);
         return result.success(user, "注册成功");
 
-    }
-
-    @GetMapping("test1")
-    public String test() {
-        return "heloo";
     }
 
     @PostMapping("login")
