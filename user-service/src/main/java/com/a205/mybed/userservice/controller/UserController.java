@@ -71,7 +71,6 @@ public class UserController {
      */
     @GetMapping(value = "isAlive", produces = MediaType.APPLICATION_JSON_VALUE)
     public IsAliveResponseData isAlive(String token) {
-        RestAPIResult<IsAliveResponseData> result = new RestAPIResult<>();
         IsAliveResponseData isAliveResponseData = new IsAliveResponseData();
         HashMap<String, String> map = userService.isAlive(token);
         if (map != null) {
