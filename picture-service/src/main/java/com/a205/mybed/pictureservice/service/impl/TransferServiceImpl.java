@@ -75,7 +75,7 @@ public class TransferServiceImpl implements TransferService {
         // 检查数据库中是否已存在关系
         AlbumPictureExample example = new AlbumPictureExample();
         example.or().andAlbumIdEqualTo(ap.getAlbumId()).andPictureIdEqualTo(ap.getPictureId());
-        if (albumPictureMapper.selectByExample(example) == null) {
+        if (albumPictureMapper.selectByExample(example).size() < 1) {
             // 保存相册-图片关系
             albumPictureMapper.insert(ap);
             logger.info("保存关系到数据库");
@@ -84,7 +84,7 @@ public class TransferServiceImpl implements TransferService {
         PictureDTO data = new PictureDTO(picture);
         data.setUrl(fileUtil.buildPicUrl(picture));
         // 保存到缓存中
-        redisUtil.setex(cachePicKeyPrefix+data.getId(),cacheExpireSecond,data);
+        redisUtil.setex(cachePicKeyPrefix + data.getId(), cacheExpireSecond, data);
         return data;
     }
 

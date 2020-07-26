@@ -1,5 +1,6 @@
 package com.a205.mybed.pictureservice.controller;
 
+import com.a205.mybed.pictureservice.aspect.Authorization;
 import com.a205.mybed.pictureservice.exception.ResourceNotFoundException;
 import com.a205.mybed.pictureservice.pojo.Album;
 import com.a205.mybed.pictureservice.pojo.PictureDTO;
@@ -41,6 +42,7 @@ public class ManagementController {
      * @param uid 用户id
      * @return 某用户拥有的相册的信息
      */
+    @Authorization
     @GetMapping(value ="u/{uid}/albums",produces = MediaType.APPLICATION_JSON_VALUE)
     public RestAPIResult<List<Album>> getAlbums(@PathVariable("uid") int uid) {
         List<Album> albums = managementService.getAlbumsByUserID(uid);
