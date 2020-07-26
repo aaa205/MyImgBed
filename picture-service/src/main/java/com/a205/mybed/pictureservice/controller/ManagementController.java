@@ -30,6 +30,7 @@ public class ManagementController {
      * @param uid
      * @return
      */
+    @Authorization
     @PostMapping(value = "u/{uid}/albums",produces = MediaType.APPLICATION_JSON_VALUE)
     public RestAPIResult<Album> createAlbum(@RequestBody CreateAlbumRequest request, @PathVariable("uid") int uid) {
         Album newAlbum = managementService.createAlbum(uid, request.getNewAlbumName());
@@ -68,6 +69,7 @@ public class ManagementController {
      * @param uid
      * @return
      */
+    @Authorization
     @GetMapping(value = "/u/{uid}/pictures",produces = MediaType.APPLICATION_JSON_VALUE)
     public RestAPIResult<List<PictureDTO>> getAllPicOfUser(@PathVariable("uid") int uid) throws URISyntaxException {
         return new RestAPIResult<List<PictureDTO>>().success(managementService.getPicByUserID(uid), "获取成功");
@@ -109,6 +111,7 @@ public class ManagementController {
      * @param request
      * @return
      */
+    @Authorization
     @DeleteMapping(value = "p/{pid}",produces = MediaType.APPLICATION_JSON_VALUE)
     public RestAPIResult<Object> deletePicInAlbum(@RequestBody DeletePicRequest request, @PathVariable("pid") int pid) throws ResourceNotFoundException {
         boolean ok = managementService.deletePicInAlbum(pid, request.getAlbumID(), request.getUserID());

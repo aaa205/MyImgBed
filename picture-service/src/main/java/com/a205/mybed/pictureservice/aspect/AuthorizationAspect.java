@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import response.IsAliveResponseData;
 import util.RestAPIResult;
 
 /**
@@ -25,6 +26,7 @@ public class AuthorizationAspect {
 
     @Autowired
     private RestTemplate template;
+    private final String aliveAPI = "http://user-service/isAlive?token=";
 
     @Pointcut(value = "@annotation(com.a205.mybed.pictureservice.aspect.Authorization)")
     public void pointcut() {
@@ -36,9 +38,12 @@ public class AuthorizationAspect {
         String token = attributes.getRequest().getHeader("Authorization");
         // 进行验证
         if (token != null) {
-            // todo
-            logger.info("调用{}: 验证成功", point.getSignature().getName());
-            return point.proceed();
+            IsAliveResponseData data = template.getForObject(aliveAPI + token, IsAliveResponseData.class);
+            if (data.isAlive()) {
+                logger.info("调用{}: 验证成功(id:{},name:{})",
+                        point.getSignature().getName(), data.getUserID(), data.getName());
+                return point.proceed();
+            }
         }
         // 没有或验证失败
         logger.info("调用{}: 验证失败", point.getSignature().getName());

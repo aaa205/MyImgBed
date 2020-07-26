@@ -1,5 +1,6 @@
 package com.a205.mybed.pictureservice.controller;
 
+import com.a205.mybed.pictureservice.aspect.Authorization;
 import com.a205.mybed.pictureservice.pojo.PictureDTO;
 import com.a205.mybed.pictureservice.service.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class PicTransferController {
      * @param request
      * @return
      */
+    @Authorization
     @PostMapping(value = "upload",produces = MediaType.APPLICATION_JSON_VALUE)
     public RestAPIResult<PictureDTO> uploadPic(UploadPicRequest request) throws Exception {
         PictureDTO data = transferService.upload(request.getFile(), request.getAlbumID());

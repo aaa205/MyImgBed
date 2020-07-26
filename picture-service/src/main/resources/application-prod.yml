@@ -9,10 +9,10 @@ eureka:
   instance:
     lease-expiration-duration-in-seconds: 30
     lease-renewal-interval-in-seconds: 10
-    instance-id: picture-service-dev
+    instance-id: picture-service
 spring:
   application:
-    name: picture-service-dev
+    name: picture-service
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -5,7 +5,7 @@ eureka:
     healthcheck:
       enabled: true
     service-url:
-      defaultZone: http://localhost:8090/eureka/
+      defaultZone: http://47.103.82.240:8090/eureka/
 
   instance:
     lease-expiration-duration-in-seconds: 30
