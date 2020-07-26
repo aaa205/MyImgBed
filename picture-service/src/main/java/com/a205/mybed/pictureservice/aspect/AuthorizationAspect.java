@@ -1,5 +1,6 @@
 package com.a205.mybed.pictureservice.aspect;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpStatus;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -8,13 +9,15 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import response.IsAliveResponseData;
 import util.RestAPIResult;
+
+import java.util.HashMap;
 
 /**
  * 使用切面来用户鉴权
@@ -26,6 +29,7 @@ public class AuthorizationAspect {
 
     @Autowired
     private RestTemplate template;
+
     private final String aliveAPI = "http://user-service/isAlive?token=";
 
     @Pointcut(value = "@annotation(com.a205.mybed.pictureservice.aspect.Authorization)")
@@ -38,8 +42,8 @@ public class AuthorizationAspect {
         String token = attributes.getRequest().getHeader("Authorization");
         // 进行验证
         if (token != null) {
-            IsAliveResponseData data = template.getForObject(aliveAPI + token, IsAliveResponseData.class);
-            if (data.isAlive()) {
+            IsAliveResponseData data = template.getForObject(aliveAPI + token, IsAliveResponseData.class);// 泛型class好像不能指定
+            if (data != null && data.isAlive()) {
                 logger.info("调用{}: 验证成功(id:{},name:{})",
                         point.getSignature().getName(), data.getUserID(), data.getName());
                 return point.proceed();

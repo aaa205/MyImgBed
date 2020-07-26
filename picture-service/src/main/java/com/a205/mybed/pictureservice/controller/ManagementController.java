@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import request.CreateAlbumRequest;
-import request.DeletePicRequest;
 import util.RestAPIResult;
 
 import java.net.URISyntaxException;
@@ -107,14 +106,16 @@ public class ManagementController {
 
     /**
      * 删除某用户下的照片，需要指定相册
-     *
-     * @param request
+     * @param userID
+     * @param albumID
+     * @param pid
      * @return
+     * @throws ResourceNotFoundException
      */
     @Authorization
     @DeleteMapping(value = "p/{pid}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public RestAPIResult<Object> deletePicInAlbum(@RequestBody DeletePicRequest request, @PathVariable("pid") int pid) throws ResourceNotFoundException {
-        boolean ok = managementService.deletePicInAlbum(pid, request.getAlbumID(), request.getUserID());
+    public RestAPIResult<Object> deletePicInAlbum(int userID,int albumID, @PathVariable("pid") int pid) throws ResourceNotFoundException {
+        boolean ok = managementService.deletePicInAlbum(pid, albumID, userID);
         RestAPIResult<Object> res = new RestAPIResult<>();
         if (ok)
             return res.success(null, "删除成功");

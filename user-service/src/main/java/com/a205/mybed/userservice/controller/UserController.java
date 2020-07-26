@@ -5,6 +5,7 @@ import com.a205.mybed.userservice.pojo.User;
 import com.a205.mybed.userservice.pojo.UserDTO;
 import com.a205.mybed.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +33,7 @@ public class UserController {
     /**
      * 注册
      */
-    @PostMapping("register")
+    @PostMapping(value = "register", produces = MediaType.APPLICATION_JSON_VALUE)
     public RestAPIResult<User> register(@RequestBody RegisterRequest request) {
         //构造返回对象
         RestAPIResult<User> result = new RestAPIResult<>();
@@ -47,8 +48,8 @@ public class UserController {
 
     }
 
-    @PostMapping("login")
-    public RestAPIResult<LoginResponseData> login(@RequestBody  LoginRequest request) {
+    @PostMapping(value = "login", produces = MediaType.APPLICATION_JSON_VALUE)
+    public RestAPIResult<LoginResponseData> login(@RequestBody LoginRequest request) {
         RestAPIResult<LoginResponseData> result = new RestAPIResult<>();
         LoginResponseData loginResponseData = new LoginResponseData();
         UserDTO userDTO = userService.login(request.getName(), request.getPassword());
@@ -64,25 +65,23 @@ public class UserController {
 
     /**
      * 携带token查看用户是否登录
+     *
      * @param token
      * @return
      */
-    @GetMapping("isAlive")
-    public RestAPIResult<IsAliveResponseData> isAlive(String token) {
+    @GetMapping(value = "isAlive", produces = MediaType.APPLICATION_JSON_VALUE)
+    public IsAliveResponseData isAlive(String token) {
         RestAPIResult<IsAliveResponseData> result = new RestAPIResult<>();
-        IsAliveResponseData isAliveResponseData=new IsAliveResponseData();
-        HashMap<String,String> map=userService.isAlive(token);
-        if(map!=null)
-        {
+        IsAliveResponseData isAliveResponseData = new IsAliveResponseData();
+        HashMap<String, String> map = userService.isAlive(token);
+        if (map != null) {
             isAliveResponseData.setAlive(true);
             isAliveResponseData.setUserID(Integer.parseInt(map.get("id")));
             isAliveResponseData.setName(map.get("name"));
-
-        }
-        else{
+        } else {
             isAliveResponseData.setAlive(false);
         }
-        return result.success(isAliveResponseData,"用户登录信息已返回");
+        return isAliveResponseData;
 
     }
 

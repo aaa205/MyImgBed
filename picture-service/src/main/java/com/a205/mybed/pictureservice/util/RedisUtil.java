@@ -17,7 +17,7 @@ public class RedisUtil {
     @Autowired
     private JedisPool jedisPool;
     @Autowired
-    private ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;// 实际上共用一个objectMapper会影响性能
     private Logger logger = LoggerFactory.getLogger(RedisUtil.class);
 
 
