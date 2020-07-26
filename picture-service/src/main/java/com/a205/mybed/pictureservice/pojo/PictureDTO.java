@@ -1,5 +1,7 @@
 package com.a205.mybed.pictureservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -11,10 +13,12 @@ public class PictureDTO {
 
     private String name;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date uploadTime;
 
     private BigDecimal size;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date expireTime;
 
     private String type;

@@ -1,5 +1,7 @@
 package com.a205.mybed.pictureservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,6 +18,7 @@ public class User implements Serializable {
 
     private Integer memory;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
 
     private static final long serialVersionUID = 1L;

@@ -1,5 +1,8 @@
 package com.a205.mybed.pictureservice.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -10,11 +13,12 @@ public class Picture implements Serializable {
     private String name;
 
     private String parentLocation;
-
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date uploadTime;
 
     private BigDecimal size;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date expireTime;
 
     private String type;
