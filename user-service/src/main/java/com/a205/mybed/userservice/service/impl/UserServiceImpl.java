@@ -21,15 +21,24 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class UserServiceImpl implements UserService {
 
+    //Token存活时间
     private static final int TOKEN_ALIVE_TIME = 3600;
 
+    //日志类
     Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private UserMapper userMapper;
 
+    /**
+     * 注册
+     * @param name
+     * @param password
+     * @return
+     */
     @Override
     public User register(String name, String password) {
+
         //信息不合法
         if (name == null || password == null) {
             return null;
@@ -54,9 +63,18 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    /**
+     * Redis封装类，springboot自带
+     */
     @Autowired
     StringRedisTemplate stringRedisTemplate;
 
+    /**
+     * 登录
+     * @param name
+     * @param password
+     * @return
+     */
     @Override
     @Transactional
     public UserDTO login(String name, String password) {
@@ -80,11 +98,11 @@ public class UserServiceImpl implements UserService {
         String token = UUID.randomUUID().toString().replaceAll("-", "");
 
 
-        //将用户的ID信息存入redis缓存，并设置一小时的过期时间,设置的是k，v  key是token ，v是id
-        stringRedisTemplate.opsForValue().set(token, String.valueOf(id), TOKEN_ALIVE_TIME, TimeUnit.SECONDS);
+        //将用户的ID和名字信息存入redis缓存，并设置一小时的过期时间,设置的是k，v  key是token ，v是id
+        stringRedisTemplate.opsForValue().set(token, String.valueOf(id) + "," + name, TOKEN_ALIVE_TIME, TimeUnit.SECONDS);
+
 
         UserDTO userDTO = new UserDTO(name, password, token);
-        System.out.println(userDTO + "userdto");
 
 
         return userDTO;
@@ -97,18 +115,23 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public boolean isAlive(String token) {
+    public HashMap<String, String> isAlive(String token) {
+        HashMap<String, String> result = new HashMap();
         if (token == null) {
-            return false;
+            return null;
         }
-        String id = stringRedisTemplate.opsForValue().get(token);
-        if (id != null) {
+        String idAndName = stringRedisTemplate.opsForValue().get(token);
+        if (idAndName != null) {
             //token存在，重新延长时间
-            logger.info(stringRedisTemplate.getExpire(token).toString());
+            String[] userInfo = idAndName.split(",");
+
+            result.put("id", userInfo[0]);
+            result.put("name", userInfo[1]);
+            result.put("token", token);
             stringRedisTemplate.expire(token, TOKEN_ALIVE_TIME, TimeUnit.SECONDS);
-            logger.info(stringRedisTemplate.getExpire(token).toString());
-            return true;
+
+            return result;
         }
-        return false;
+        return null;
     }
 }
