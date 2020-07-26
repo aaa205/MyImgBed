@@ -1,10 +1,16 @@
 package com.a205.mybed.userservice.dao;
 
-import pojo.User;
+import com.a205.mybed.userservice.pojo.User;
 import com.a205.mybed.userservice.pojo.UserExample;
-import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.List;
+
+@Mapper
+@Repository
 public interface UserMapper {
     long countByExample(UserExample example);
 
@@ -19,6 +25,8 @@ public interface UserMapper {
     List<User> selectByExample(UserExample example);
 
     User selectByPrimaryKey(Integer id);
+
+    HashMap<String,String> selectByName(String name);
 
     int updateByExampleSelective(@Param("record") User record, @Param("example") UserExample example);
 
