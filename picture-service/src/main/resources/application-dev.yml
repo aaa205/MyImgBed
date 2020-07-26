@@ -29,4 +29,4 @@ spring:
 # 图片存储路径
 storage-path: ./imgs/
 # 图片访问url前缀
-picture-url-prefix: localhost/img
+picture-url-prefix: 47.103.82.240/img
